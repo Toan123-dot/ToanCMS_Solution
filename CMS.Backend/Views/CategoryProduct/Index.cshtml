@@ -1,0 +1,62 @@
+﻿@model IEnumerable<CMS.Data.Entities.CategoryProduct>
+
+@{
+    ViewData["Title"] = "Danh mục sản phẩm";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary fw-bold text-uppercase">📦 Quản lý danh mục sản phẩm</h2>
+        <a href="/CategoryProduct/Create" class="btn btn-success shadow-sm">
+            ➕ Thêm danh mục mới
+        </a>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped mb-0 align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col" class="ps-4" style="width: 10%;">Mã (Id)</th>
+                            <th scope="col" style="width: 30%;">Tên danh mục</th>
+                            <th scope="col" style="width: 45%;">Mô tả chi tiết</th>
+                            <th scope="col" class="text-center" style="width: 15%;">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="fw-bold ps-4">@item.Id</td>
+                                    <td>
+                                        <span class="badge bg-info text-dark @(item.Id == 1 ? "bg-warning" : "")">
+                                            @item.Name
+                                        </span>
+                                    </td>
+                                    <td class="text-muted">@item.Description</td>
+                                    <td class="text-center">
+                                        <div class="btn-group btn-group-sm" role="group">
+                                            <a href="/CategoryProduct/Edit/@item.Id" class="btn btn-outline-warning">Sửa</a>
+                                            <a href="/CategoryProduct/Delete/@item.Id" class="btn btn-outline-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="4" class="text-center text-muted py-4">
+                                    Hiện chưa có dữ liệu danh mục nào trong hệ thống.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

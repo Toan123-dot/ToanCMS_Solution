@@ -1,0 +1,76 @@
+﻿@model IEnumerable<CMS.Data.Entities.Order>
+
+@{
+    ViewData["Title"] = "Danh sách đơn hàng";
+    Layout = "_LayoutAdmin";
+
+
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary fw-bold text-uppercase">🧾 Hệ thống quản lý đơn hàng</h2>
+        <span class="badge bg-primary p-2 fs-6">Tổng số: @Model?.Count() đơn</span>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped mb-0 align-middle">
+                    <thead class="table-primary">
+                        <tr>
+                            <th scope="col" class="ps-4" style="width: 12%;">Mã đơn</th>
+                            <th scope="col" style="width: 18%;">Ngày đặt</th>
+                            <th scope="col" style="width: 25%;">Khách hàng</th>
+                            <th scope="col" style="width: 15%;">Trạng thái</th>
+                            <th scope="col" style="width: 30%;">Ghi chú</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="fw-bold ps-4 text-primary">#@item.Id</td>
+                                    <td class="text-secondary">@item.OrderDate.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td>
+                                        <div class="fw-semibold text-dark">
+                                            @(item.Customer != null ? item.Customer.FullName : "Khách hàng #" + item.CustomerId)
+                                        </div>
+                                        <small class="text-muted">Mã số KH: @item.CustomerId</small>
+                                    </td>
+                                    <td>
+                                        @* Thay đổi logic so sánh từ Chuỗi sang Số nguyên (int) để hết lỗi gạch đỏ *@
+                                        @if (item.Status == 2)
+                                        {
+                                            <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1.5">Đã thanh toán</span>
+                                        }
+                                        else if (item.Status == 1)
+                                        {
+                                            <span class="badge bg-info-subtle text-info border border-info-subtle px-2 py-1.5">Đang giao hàng</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-2 py-1.5">Chờ xử lý</span>
+                                        }
+                                    </td>
+                                    <td class="text-muted font-monospace" style="font-size: 0.9rem;">@item.Notes</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center text-muted py-5">
+                                    <i class="bi bi-box-seam fs-2 d-block mb-2"></i>
+                                    Không tìm thấy dữ liệu đơn hàng nào trong hệ thống.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
