@@ -1,12 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+<<<<<<< HEAD
 using System.Linq;
 using CMS.Data;
 using CMS.Data.Entities;
+=======
+using Microsoft.AspNetCore.Mvc;
+using CMS.Data.Entities; // Kết nối tới lớp dữ liệu bạn vừa tạo
+>>>>>>> 9d1cf64c2e342b9c76b4a45141f15c77390774b3
 
 namespace CMS.Backend.Controllers
 {
     public class CategoryController : Controller
     {
+<<<<<<< HEAD
         private readonly ApplicationDbContext _context;
 
         public CategoryController(ApplicationDbContext context)
@@ -74,3 +80,17 @@ namespace CMS.Backend.Controllers
         }
     }
 }
+=======
+        public IActionResult Index()
+        {
+            // Tạo danh sách dữ liệu mẫu trực tiếp trong code
+            var list = new List<Category> {
+            new Category { Id = 1, Name = "Tin Công Nghệ", Description = "Review Laptop, AI" },
+            new Category { Id = 2, Name = "Giáo Dục", Description = "Thông tin tuyển sinh" }
+        };
+
+            return View(list);// Gửi danh sách này sang giao diện
+        }
+    }
+}
+>>>>>>> 9d1cf64c2e342b9c76b4a45141f15c77390774b3
