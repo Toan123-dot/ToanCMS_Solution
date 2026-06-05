@@ -1,19 +1,15 @@
-<<<<<<< HEAD
-﻿using CMS.Data;           // 1. Phải thêm dòng này để hệ thống hiểu ApplicationDbContext
+using CMS.Data;           // 1. Phải thêm dòng này để hệ thống hiểu ApplicationDbContext
 using CMS.Data.Entities;   // 2. Để sử dụng được thực thể User
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-=======
-﻿using Microsoft.AspNetCore.Mvc;
-using CMS.Data.Entities; // Phải có dòng này để dùng lớp User
->>>>>>> 9d1cf64c2e342b9c76b4a45141f15c77390774b3
+using Microsoft.AspNetCore.Authorization;
 
 namespace CMS.Backend.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class UserController : Controller
     {
-<<<<<<< HEAD
         // 3. Khai báo biến ngữ cảnh Database (chỉ đọc) giống như bên Post
         private readonly ApplicationDbContext _context;
 
@@ -85,6 +81,7 @@ namespace CMS.Backend.Controllers
             // 3. Cập nhật vào Database
             _context.Users.Update(model);
             _context.SaveChanges();
+
             return RedirectToAction("Index");
         }
         public IActionResult Delete(int id)
@@ -99,39 +96,3 @@ namespace CMS.Backend.Controllers
         }
     }
 }
-=======
-        // Hàm Index: Hiển thị danh sách thành viên quản trị
-        public IActionResult Index()
-        {
-            // 1. Tạo danh sách Người dùng giả (Mock Data)
-            var users = new List<User>
-            {
-                new User
-                {
-                    Id = 1,
-                    Username = "admin_thai",
-                    FullName = "Nguyễn Cao Thái",
-                    Role = "Administrator"
-                },
-                new User
-                {
-                    Id = 2,
-                    Username = "editor_01",
-                    FullName = "Trần Văn Biên Tập",
-                    Role = "Editor"
-                },
-                new User
-                {
-                    Id = 3,
-                    Username = "author_minh",
-                    FullName = "Lê Quang Minh",
-                    Role = "Author"
-                }
-            };
-
-            // 2. Trả về View kèm theo danh sách người dùng
-            return View(users);
-        }
-    }
-}
->>>>>>> 9d1cf64c2e342b9c76b4a45141f15c77390774b3

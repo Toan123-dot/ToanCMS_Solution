@@ -1,36 +1,66 @@
 ﻿@model CMS.Data.Entities.Post
+
 @{
     Layout = "_LayoutAdmin";
     ViewData["Title"] = "Chi tiết bài viết";
 }
-<div class="container mt-5">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/Post">Danh sách bài viết</a></li>
-            <li class="breadcrumb-item active">Chi tiết bài viết</li>
-        </ol>
-    </nav>
 
-    <div class="row justify-content-center">
-        <div class="col-md-10">
-            <h1 class="display-4 fw-bold text-primary">@Model.Title</h1>
-            <p class="text-muted">Đăng ngày: @Model.CreatedDate.ToString("dd/MM/yyyy HH:mm")</p>
-            <hr />
+@if (Model == null)
+{
+    <div class="container mt-5">
+        <div class="alert alert-danger">Không tìm thấy bài viết!</div>
+    </div>
+}
+else
+{
+    <div class="container mt-5">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/Post">Danh sách bài viết</a></li>
+                <li class="breadcrumb-item active">Chi tiết bài viết</li>
+            </ol>
+        </nav>
 
-            <div class="text-center mb-4">
-                <img src="@Model.ImageUrl" class="img-fluid rounded shadow" alt="Post Image" style="width: 100%;">
-            </div>
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <h1 class="display-4 fw-bold text-primary">@(@Model.Title ?? "Untitled")</h1>
 
-            <div class="post-content fs-5 leading-lg">
-                @Html.Raw(Model.Content)
-                @Model.Content
-            </div>
+                @{
+                    var createdText = (Model.CreatedDate == DateTime.MinValue)
+                    ? "N/A"
+                    : Model.CreatedDate.ToString("dd/MM/yyyy HH:mm");
+                }
+                <p class="text-muted">Đăng ngày: @createdText</p>
+                <hr />
 
-            <div class="mt-5 border-top pt-3">
-                <a href="/Post" class="btn btn-secondary">
-                    <i class="bi bi-arrow-left"></i> Quay lại danh sách
-                </a>
+                @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
+                {
+                    <div class="text-center mb-4">
+                        <img src="@Model.ImageUrl" class="img-fluid rounded shadow" alt="Post Image" style="width: 100%;" />
+                    </div>
+                }
+
+                <div class="post-content fs-5 leading-lg">
+                    @{
+                        var content = Model.Content ?? string.Empty;
+                        // Nếu chuỗi có tag HTML (đơn giản), render raw; ngược lại để Razor encode.
+                        if (content.Contains("<") && content.Contains(">"))
+                        {
+                            @Html.Raw(content)
+                        }
+                        else
+                        {
+                            @content
+                        }
+                    }
+                </div>
+
+                <div class="mt-5 border-top pt-3">
+                    <a href="/Post" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Quay lại danh sách
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-</div>
+}
