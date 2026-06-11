@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CMS.Backend.Controllers
 {
+    
+    [Authorize] // Bắt buộc phải đăng nhập mới được vào [cite: 4184]
 
     [Authorize] // Bắt buộc phải đăng nhập mới được vào [cite: 4184]
     public class CategoryController : Controller
@@ -47,8 +49,14 @@ namespace CMS.Backend.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
+           
 
             var category = _context.Categories.Find(id);
+            if (category == null)
+            {
+                return NotFound(); 
+            }
+
             if (category == null)
             {
                 return NotFound();

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using CMS.Data; // Thư mục chứa DbContext
 using CMS.Data;
 using System.Linq;
 using System.Diagnostics;
@@ -11,6 +12,10 @@ namespace CMS.Backend.Controllers
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _context;
+
+        public HomeController(ApplicationDbContext context)
+        {
+            _context = context;
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ApplicationDbContext context, ILogger<HomeController> logger)
@@ -19,6 +24,14 @@ namespace CMS.Backend.Controllers
             _logger = logger;
         }
 
+        public async Task<IActionResult> Index()
+        {
+            var latestPosts = await _context.Posts
+                .AsNoTracking()
+                .Include(p => p.Category) // eager load category
+                .OrderByDescending(p => p.CreatedDate)
+                .Take(3)
+                .ToListAsync();
         // 1. Thay đổi 'IActionResult' thành 'async Task<IActionResult>'
         public async Task<IActionResult> Index()
         {   
@@ -31,6 +44,8 @@ namespace CMS.Backend.Controllers
 
             return View(latestPosts);
         }
+    }
+}
 
         public IActionResult Privacy()
         {

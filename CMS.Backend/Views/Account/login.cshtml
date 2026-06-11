@@ -1,5 +1,6 @@
-﻿﻿@{
-Layout = null; // Trang đăng nhập độc lập, không dùng Layout chung
+﻿@{
+﻿@{
+    Layout = null; // Trang đăng nhập độc lập, không dùng Layout chung
 }
 <!DOCTYPE html>
 <html>
@@ -27,7 +28,7 @@ Layout = null; // Trang đăng nhập độc lập, không dùng Layout chung
                             </div>
                             @if (ViewBag.Error != null)
                             {
-                                <div class="alert alert-danger py-2">@ViewBag.Error</div>
+                            <div class="alert alert-danger py-2">@ViewBag.Error</div>
                             }
                             <button type="submit" class="btn btn-primary w-100">ĐĂNG NHẬP</button>
                         </form>

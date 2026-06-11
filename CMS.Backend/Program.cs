@@ -1,6 +1,6 @@
-<<<<<<< HEAD
-﻿using Microsoft.EntityFrameworkCore;
 using CMS.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -10,8 +10,17 @@ using System.Linq;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add services to the container.
+builder.Services.AddControllersWithViews();
+// Đăng ký DbContext vào hệ thống
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Account/Login"; // Đường dẫn nếu chưa đăng nhập
+        options.AccessDeniedPath = "/Account/AccessDenied"; // Đường dẫn nếu vào trang không được phép
+    });
 
 =======
 var builder = WebApplication.CreateBuilder(args);
@@ -83,12 +92,14 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+app.Run();
 app.Run();
 
 // ====================================================================
