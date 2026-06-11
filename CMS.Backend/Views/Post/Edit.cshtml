@@ -64,3 +64,19 @@
         </form>
     </div>
 </div>
+
+@section Scripts {
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+
+    <script>
+        
+        ClassicEditor
+            .create(document.querySelector('#Content'))
+            .then(editor => {
+                console.log("CKEditor 5 trên trang Sửa đã khởi chạy thành công!");
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+}
