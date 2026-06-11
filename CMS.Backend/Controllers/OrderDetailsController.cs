@@ -1,10 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CMS.Data;
+using System;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization; // 🌟 THÊM DÒNG NÀY: Thư viện hỗ trợ kiểm tra đăng nhập
 
 namespace CMS.Backend.Controllers
 {
+    [Authorize] // 🌟 THÊM DÒNG NÀY: Khóa trang này lại, chưa đăng nhập sẽ bị đá ra trang Login
+    [Route("OrderDetail/[action]")]
+    [Route("OrderDetails/[action]")] // Chống lỗi 404 cho cả số ít và số nhiều
     public class OrderDetailsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -14,41 +19,42 @@ namespace CMS.Backend.Controllers
             _context = context;
         }
 
-        // Hỗ trợ truy cập cả gõ chay: /OrderDetails hoặc truyền mã /OrderDetails?orderId=1
-        public IActionResult Index(int? orderId)
+        // Hỗ trợ truy cập linh hoạt: /OrderDetail/Index/1 hoặc /OrderDetail?id=1
+        [Route("~/OrderDetail/{id?}")]
+        [Route("~/OrderDetails/{id?}")]
+        public IActionResult Index(int? id)
         {
-            // 1. Cơ chế phòng vệ: Nếu gõ chạy không có Id, tự động lấy mã đơn hàng đầu tiên hiện có để hiển thị mẫu
-            if (orderId == null || orderId == 0)
+            // 1. Cơ chế phòng vệ: Nếu truy cập chạy chay không có ID, tự lấy mã đơn đầu tiên để hiển thị mẫu
+            if (id == null || id == 0)
             {
                 var firstOrder = _context.Orders.FirstOrDefault();
                 if (firstOrder != null)
                 {
-                    orderId = firstOrder.Id;
+                    id = firstOrder.Id;
                 }
                 else
                 {
-                    // Nếu hệ thống hoàn toàn trống rỗng không có đơn nào
-                    return Content("Hệ thống chưa có đơn hàng nào. Vui lòng nạp dữ liệu SQL trước!");
+                    return Content("Hệ thống chưa có đơn hàng nào trong cơ sở dữ liệu.");
                 }
             }
 
-            // 2. Lấy danh sách chi tiết của đơn hàng, đồng thời kết nối thông tin Sản phẩm (Product) đi kèm
+            // 2. Lấy danh sách chi tiết của đơn hàng, kết nối thông tin bảng Sản phẩm (Product)
             var orderDetails = _context.OrderDetails
                 .Include(od => od.Product)
-                .Where(od => od.OrderId == orderId)
+                .Where(od => od.OrderId == id)
                 .ToList();
 
-            // 3. Lấy thông tin tổng quát của hóa đơn để hiển thị trên phần Header
+            // 3. Lấy thông tin tổng quát của hóa đơn để hiển thị lên phần Header
             var order = _context.Orders
                 .Include(o => o.Customer)
-                .FirstOrDefault(o => o.Id == orderId);
+                .FirstOrDefault(o => o.Id == id);
 
             if (order == null)
             {
                 return NotFound();
             }
 
-            // Truyền thông tin đơn hàng qua ViewBag để hiển thị ngoài giao diện
+            // Truyền dữ liệu đơn hàng qua ViewBag để hiển thị ngoài giao diện
             ViewBag.Order = order;
 
             return View(orderDetails);
