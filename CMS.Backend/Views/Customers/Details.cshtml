@@ -1,0 +1,49 @@
+﻿@model CMS.Data.Entities.Customer
+@{
+    ViewData["Title"] = "Chi tiết khách hàng";
+    Layout = "_LayoutAdmin";
+}
+
+<div class="container mt-4" style="max-width: 700px;">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-info text-white">
+            <h4 class="mb-0">🔍 CHI TIẾT THÔNG TIN KHÁCH HÀNG</h4>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered my-3">
+                <tbody>
+                    <tr>
+                        <th style="width: 30%;" class="bg-light">Mã khách hàng (Id)</th>
+                        <td class="fw-bold text-primary">#@Model.Id</td>
+                    </tr>
+                    <tr>
+                        <th class="bg-light">Họ và tên</th>
+                        <td class="fw-semibold text-dark">@Model.FullName</td>
+                    </tr>
+                    <tr>
+                        <th class="bg-light">Số điện thoại</th>
+                        <td>@(string.IsNullOrEmpty(Model.Phone) ? "Chưa cung cấp" : Model.Phone)</td>
+                    </tr>
+                    <tr>
+                        <th class="bg-light">Địa chỉ Email</th>
+                        <td><a href="mailto:@Model.Email">@Model.Email</a></td>
+                    </tr>
+                    <tr>
+                        <th class="bg-light">Mật khẩu tài khoản</th>
+                        <td><code>@Model.Password</code> <small class="text-muted">(Hiển thị thô dạng đơn giản)</small></td>
+                    </tr>
+                    <tr>
+                        <th class="bg-light">Địa chỉ thường trú</th>
+                        <td>@(string.IsNullOrEmpty(Model.Address) ? "Chưa cung cấp" : Model.Address)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="d-flex justify-content-between mt-4">
+                <a asp-action="Index" class="btn btn-secondary">Quay lại danh sách</a>
+
+                <a asp-controller="Customer" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning fw-bold text-dark">✏️ Đi tới sửa</a>
+            </div>
+        </div>
+    </div>
+</div>

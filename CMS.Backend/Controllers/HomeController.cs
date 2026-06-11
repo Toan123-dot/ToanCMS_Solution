@@ -1,49 +1,35 @@
-<<<<<<< HEAD
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using CMS.Data; // Th? m?c ch?a DbContext
+using CMS.Data;
 using System.Linq;
-=======
 using System.Diagnostics;
 using CMS.Backend.Models;
-using Microsoft.AspNetCore.Mvc;
->>>>>>> 9d1cf64c2e342b9c76b4a45141f15c77390774b3
+using System.Threading.Tasks; // Thêm namespace này nếu chưa có mặc định
 
 namespace CMS.Backend.Controllers
 {
     public class HomeController : Controller
     {
-<<<<<<< HEAD
         private readonly ApplicationDbContext _context;
-
-        public HomeController(ApplicationDbContext context)
-        {
-            _context = context;
-=======
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ApplicationDbContext context, ILogger<HomeController> logger)
         {
+            _context = context;
             _logger = logger;
->>>>>>> 9d1cf64c2e342b9c76b4a45141f15c77390774b3
         }
 
-        public IActionResult Index()
-        {
-<<<<<<< HEAD
-            // LINQ: Gi? nguy�n 100% code c?a th?y, kh�ng thay ??i m?t ch?
-            var latestPosts = _context.Posts
-                                .Include(p => p.Category) // L?y k�m t�n danh m?c ?? hi?n th? 
-                                .OrderByDescending(p => p.CreatedDate) // S?p x?p ng�y m?i nh?t l�n ??u 
-                                .Take(3) // Ch? l?y ?�ng 3 b?n tin ??u ti�n
-                                .ToList();
+        // 1. Thay đổi 'IActionResult' thành 'async Task<IActionResult>'
+        public async Task<IActionResult> Index()
+        {   
+            // LINQ Async: Thêm 'await' và đổi '.ToList()' thành '.ToListAsync()'
+            var latestPosts = await _context.Posts
+                                .Include(p => p.Category)
+                                .OrderByDescending(p => p.CreatedDate)
+                                .Take(3)
+                                .ToListAsync();
 
             return View(latestPosts);
-        }
-    }
-}
-=======
-            return View();
         }
 
         public IActionResult Privacy()
@@ -58,4 +44,3 @@ namespace CMS.Backend.Controllers
         }
     }
 }
->>>>>>> 9d1cf64c2e342b9c76b4a45141f15c77390774b3

@@ -1,18 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
-<<<<<<< HEAD
-using System.Linq;
-using CMS.Data;
+﻿using CMS.Data;
 using CMS.Data.Entities;
-=======
 using Microsoft.AspNetCore.Mvc;
-using CMS.Data.Entities; // Kết nối tới lớp dữ liệu bạn vừa tạo
->>>>>>> 9d1cf64c2e342b9c76b4a45141f15c77390774b3
+using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CMS.Backend.Controllers
 {
+
+    [Authorize] // Bắt buộc phải đăng nhập mới được vào [cite: 4184]
     public class CategoryController : Controller
     {
-<<<<<<< HEAD
         private readonly ApplicationDbContext _context;
 
         public CategoryController(ApplicationDbContext context)
@@ -20,77 +17,78 @@ namespace CMS.Backend.Controllers
             _context = context;
         }
 
-        // 1. XEM DANH SÁCH
+        // 1. TRANG DANH SÁCH (INDEX)
         public IActionResult Index()
         {
-            var data = _context.Categories.ToList();
+            var data = _context.Categories.ToList(); // Lấy dữ liệu thật từ bảng Categories [cite: 2975]
             return View(data);
         }
-
-        // 2. THÊM MỚI (CREATE)
         [HttpGet]
-        public IActionResult Create() => View();
-
-        [HttpPost]
-        public IActionResult Create(Category model)
+        public IActionResult Create()
         {
-            _context.Categories.Add(model);
-            _context.SaveChanges();
-            return RedirectToAction("Index");
+            return View();
         }
 
-        // 3. CHỈNH SỬA (EDIT)
-        // [GET]: Hiển thị form chứa thông tin cũ để người dùng sửa
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Category model)
+        {
+            ModelState.Remove("Posts");
+
+            if (ModelState.IsValid)
+            {
+                _context.Categories.Add(model); // Thêm vào bộ nhớ tạm [cite: 3184]
+                _context.SaveChanges(); // Lưu thực sự vào SQL Server [cite: 3187]
+                return RedirectToAction("Index");
+            }
+            return View(model); // Nếu dữ liệu lỗi, trả lại form kèm dữ liệu đã nhập
+        }
+
         [HttpGet]
         public IActionResult Edit(int id)
         {
+
             var category = _context.Categories.Find(id);
-            if (category == null) return NotFound();
+            if (category == null)
+            {
+                return NotFound();
+            }
+
             return View(category);
         }
 
-        // [POST]: Lưu thay đổi xuống SQL Server
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(Category model)
         {
-            // BƯỚC 1: Đánh dấu đối tượng model là đã thay đổi
-            _context.Categories.Update(model);
+            ModelState.Remove("Posts");
+            if (ModelState.IsValid)
+            {
+                _context.Categories.Update(model);
+                _context.SaveChanges(); // Lưu thay đổi xuống SQL Server [cite: 3323]
 
-            // BƯỚC 2: Chốt lệnh cập nhật (UPDATE) vào Database
-            _context.SaveChanges();
-
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+            return View(model);
         }
 
-        // 4. XÓA (DELETE)
+        // ====================================================================
+        // 4. XÓA DANH MỤC (Xử lý xóa nhanh trực tiếp từ trang danh sách)
+        // Đường dẫn kích hoạt từ trang danh sách: /Category/Delete/{id}
+        // ====================================================================
+        [HttpGet]
         public IActionResult Delete(int id)
         {
-            // BƯỚC 1: Tìm đối tượng cần xóa
             var category = _context.Categories.Find(id);
 
-            // BƯỚC 2: Nếu tìm thấy thì xóa khỏi bộ nhớ tạm
             if (category != null)
             {
                 _context.Categories.Remove(category);
 
-                // BƯỚC 3: Chốt lệnh xóa (DELETE) vào Database
                 _context.SaveChanges();
             }
+
             return RedirectToAction("Index");
         }
     }
 }
-=======
-        public IActionResult Index()
-        {
-            // Tạo danh sách dữ liệu mẫu trực tiếp trong code
-            var list = new List<Category> {
-            new Category { Id = 1, Name = "Tin Công Nghệ", Description = "Review Laptop, AI" },
-            new Category { Id = 2, Name = "Giáo Dục", Description = "Thông tin tuyển sinh" }
-        };
-
-            return View(list);// Gửi danh sách này sang giao diện
-        }
-    }
-}
->>>>>>> 9d1cf64c2e342b9c76b4a45141f15c77390774b3

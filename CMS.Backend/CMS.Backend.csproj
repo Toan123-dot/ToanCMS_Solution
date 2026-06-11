@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-=======
+
 <Project Sdk="Microsoft.NET.Sdk.Web">
->>>>>>> 9d1cf64c2e342b9c76b4a45141f15c77390774b3
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -15,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-<<<<<<< HEAD
+
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.23">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -25,8 +22,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-=======
->>>>>>> 9d1cf64c2e342b9c76b4a45141f15c77390774b3
+
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.23" />
 
 

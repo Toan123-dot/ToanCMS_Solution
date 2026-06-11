@@ -1,0 +1,43 @@
+﻿@model CMS.Data.Entities.Order
+@{
+    ViewData["Title"] = "Cập nhật trạng thái đơn hàng";
+    Layout = "_LayoutAdmin";
+}
+
+<div class="container mt-4" style="max-width: 600px;">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">✏️ CẬP NHẬT ĐƠN HÀNG #@Model.Id</h4>
+        </div>
+        <div class="card-body">
+            <div class="mb-3 border-bottom pb-2">
+                <p class="mb-1"><strong>Khách hàng đặt:</strong> @(Model.Customer != null ? Model.Customer.FullName : "Khách hàng #" + Model.CustomerId)</p>
+                <p class="mb-1"><strong>Ngày đặt hàng:</strong> @Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</p>
+            </div>
+
+            <form asp-controller="Orders" asp-action="Edit" asp-route-id="@Model.Id" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="Id" />
+
+                <div class="mb-3">
+                    <label asp-for="Status" class="form-label fw-bold">Trạng thái đơn hàng</label>
+                    <select asp-for="Status" class="form-select">
+                        <option value="0">Chờ xử lý</option>
+                        <option value="1">Đang giao hàng</option>
+                        <option value="2">Đã thanh toán</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Notes" class="form-label fw-bold">Ghi chú đơn hàng</label>
+                    <textarea asp-for="Notes" class="form-control" rows="3"></textarea>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+                    <button type="submit" class="btn btn-primary fw-bold">Cập nhật đơn hàng</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
