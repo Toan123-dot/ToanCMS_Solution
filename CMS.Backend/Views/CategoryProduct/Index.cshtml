@@ -1,13 +1,14 @@
 ﻿@model IEnumerable<CMS.Data.Entities.CategoryProduct>
 
 @{
+    Layout = "_LayoutAdmin";
     ViewData["Title"] = "Danh mục sản phẩm";
 }
 
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="text-primary fw-bold text-uppercase">📦 Quản lý danh mục sản phẩm</h2>
-        <a href="/CategoryProduct/Create" class="btn btn-success shadow-sm">
+        <a href="/ProductCategory/Create" class="btn btn-success shadow-sm">
             ➕ Thêm danh mục mới
         </a>
     </div>
@@ -32,15 +33,15 @@
                                 <tr>
                                     <td class="fw-bold ps-4">@item.Id</td>
                                     <td>
-                                        <span class="badge bg-info text-dark @(item.Id == 1 ? "bg-warning" : "")">
+                                        <span class="badge bg-info text-dark">
                                             @item.Name
                                         </span>
                                     </td>
                                     <td class="text-muted">@item.Description</td>
                                     <td class="text-center">
                                         <div class="btn-group btn-group-sm" role="group">
-                                            <a href="/CategoryProduct/Edit/@item.Id" class="btn btn-outline-warning">Sửa</a>
-                                            <a href="/CategoryProduct/Delete/@item.Id" class="btn btn-outline-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
+                                            <a href="/ProductCategory/Edit/@item.Id" class="btn btn-outline-warning">Sửa</a>
+                                            <a href="/ProductCategory/Delete/@item.Id" class="btn btn-outline-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
                                         </div>
                                     </td>
                                 </tr>

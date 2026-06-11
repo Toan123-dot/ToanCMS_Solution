@@ -1,54 +1,68 @@
-﻿    @model IEnumerable<CMS.Data.Entities.Customer>
+﻿@model IEnumerable<CMS.Data.Entities.Customer>
 
-    @{
-        Layout = "_LayoutAdmin";
-        ViewData["Title"] = "Danh sách khách hàng";
-    }
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Danh sách khách hàng";
+}
 
-    <div class="container mt-4">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="text-success fw-bold text-uppercase">👥 Quản lý danh sách khách hàng</h2>
-            <a href="/Customer/Create" class="btn btn-success shadow-sm">➕ Thêm khách hàng mới</a>
-        </div>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-success fw-bold text-uppercase">👥 Quản lý danh sách khách hàng</h2>
+        <a href="/Customer/Create" class="btn btn-success shadow-sm">➕ Thêm khách hàng mới</a>
+    </div>
 
-        <div class="card shadow-sm border-0">
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover table-striped mb-0 align-middle">
-                        <thead class="table-success">
-                            <tr>
-                                <th scope="col" class="ps-4" style="width: 10%;">Mã (Id)</th>
-                                <th scope="col" style="width: 25%;">Họ và tên</th>
-                                <th scope="col" style="width: 20%;">Email</th>
-                                <th scope="col" style="width: 15%;">Số điện thoại</th>
-                                <th scope="col" style="width: 30%;">Địa chỉ</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (Model != null && Model.Any())
-                            {
-                                foreach (var item in Model)
-                                {
-                                    <tr>
-                                        <td class="fw-bold ps-4">#@item.Id</td>
-                                        <td class="fw-semibold text-dark">@item.FullName</td>
-                                        <td><a href="mailto:@item.Email" class="text-decoration-none">@item.Email</a></td>
-                                        <td class="text-secondary">@item.Phone</td>
-                                        <td class="text-muted text-truncate" style="max-width: 250px;">@item.Address</td>
-                                    </tr>
-                                }
-                            }
-                            else
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped mb-0 align-middle">
+                    <thead class="table-success">
+                        <tr>
+                            <th scope="col" class="ps-4" style="width: 10%;">Mã (Id)</th>
+                            <th scope="col" style="width: 20%;">Họ và tên</th>
+                            <th scope="col" style="width: 20%;">Email</th>
+                            <th scope="col" style="width: 15%;">Số điện thoại</th>
+                            <th scope="col" style="width: 20%;">Địa chỉ</th>
+                            <th scope="col" class="text-center" style="width: 15%;">Chức năng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var item in Model)
                             {
                                 <tr>
-                                    <td colspan="5" class="text-center text-muted py-4">
-                                        Hiện chưa có dữ liệu khách hàng nào trong hệ thống.
+                                    <td class="fw-bold ps-4">#@item.Id</td>
+                                    <td class="fw-semibold text-dark">@item.FullName</td>
+                                    <td><a href="mailto:@item.Email" class="text-decoration-none">@item.Email</a></td>
+                                    <td class="text-secondary">@item.Phone</td>
+                                    <td class="text-muted text-truncate" style="max-width: 200px;">@item.Address</td>
+
+                                    <td class="text-center">
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="/Customer/Edit/@item.Id" class="btn btn-outline-warning" title="Sửa"><i class="bi bi-pencil"></i></a>
+
+                                            <a href="/Customer/Details/@item.Id" class="btn btn-outline-info" title="Chi tiết"><i class="bi bi-eye"></i></a>
+
+                                            <a href="/Customer/Delete/@item.Id" class="btn btn-outline-danger" title="Xóa"
+                                               onclick="return confirm('Bạn có chắc chắn muốn xóa khách hàng @item.FullName này không? Thao tác này không thể hoàn tác!');">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                             }
-                        </tbody>
-                    </table>
-                </div>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="6" class="text-center text-muted py-4">
+                                    Hiện chưa có dữ liệu khách hàng nào trong hệ thống.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
+</div>

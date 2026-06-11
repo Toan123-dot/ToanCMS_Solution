@@ -8,6 +8,8 @@ namespace CMS.Backend.Controllers
 {
     
     [Authorize] // Bắt buộc phải đăng nhập mới được vào [cite: 4184]
+
+    [Authorize] // Bắt buộc phải đăng nhập mới được vào [cite: 4184]
     public class CategoryController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -48,10 +50,16 @@ namespace CMS.Backend.Controllers
         public IActionResult Edit(int id)
         {
            
+
             var category = _context.Categories.Find(id);
             if (category == null)
             {
                 return NotFound(); 
+            }
+
+            if (category == null)
+            {
+                return NotFound();
             }
 
             return View(category);

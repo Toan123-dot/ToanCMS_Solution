@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<CMS.Data.Entities.User>
-
 @{
     Layout = "_LayoutAdmin";
     ViewData["Title"] = "Quản lý thành viên";
@@ -41,6 +40,7 @@
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-sm btn-outline-warning">
+                        <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-sm btn-outline-warning me-1">
                             Sửa
                         </a>
                         <a asp-action="Delete" asp-route-id="@user.Id"
@@ -55,3 +55,4 @@
     </table>
 </div>
 
+</div>

@@ -1,10 +1,7 @@
 ﻿@model IEnumerable<CMS.Data.Entities.Order>
-
 @{
     ViewData["Title"] = "Danh sách đơn hàng";
     Layout = "_LayoutAdmin";
-
-
 }
 
 <div class="container mt-4">
@@ -19,11 +16,12 @@
                 <table class="table table-hover table-striped mb-0 align-middle">
                     <thead class="table-primary">
                         <tr>
-                            <th scope="col" class="ps-4" style="width: 12%;">Mã đơn</th>
-                            <th scope="col" style="width: 18%;">Ngày đặt</th>
+                            <th scope="col" class="ps-4" style="width: 10%;">Mã đơn</th>
+                            <th scope="col" style="width: 15%;">Ngày đặt</th>
                             <th scope="col" style="width: 25%;">Khách hàng</th>
                             <th scope="col" style="width: 15%;">Trạng thái</th>
-                            <th scope="col" style="width: 30%;">Ghi chú</th>
+                            <th scope="col" style="width: 20%;">Ghi chú</th>
+                            <th scope="col" class="text-center" style="width: 15%;">Chức năng</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,7 +39,6 @@
                                         <small class="text-muted">Mã số KH: @item.CustomerId</small>
                                     </td>
                                     <td>
-                                        @* Thay đổi logic so sánh từ Chuỗi sang Số nguyên (int) để hết lỗi gạch đỏ *@
                                         @if (item.Status == 2)
                                         {
                                             <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1.5">Đã thanh toán</span>
@@ -56,13 +53,20 @@
                                         }
                                     </td>
                                     <td class="text-muted font-monospace" style="font-size: 0.9rem;">@item.Notes</td>
+                                    <td class="text-center">
+                                        <div class="btn-group btn-group-sm">
+                                            <a asp-controller="Orders" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-warning" title="Thay đổi trạng thái">
+                                                <i class="bi bi-pencil"></i> Trạng thái
+                                            </a>
+                                        </div>
+                                    </td>
                                 </tr>
                             }
                         }
                         else
                         {
                             <tr>
-                                <td colspan="5" class="text-center text-muted py-5">
+                                <td colspan="6" class="text-center text-muted py-5">
                                     <i class="bi bi-box-seam fs-2 d-block mb-2"></i>
                                     Không tìm thấy dữ liệu đơn hàng nào trong hệ thống.
                                 </td>

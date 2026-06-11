@@ -27,7 +27,7 @@ namespace CMS.Backend.Controllers
             {
                 query = query.Where(p => p.CategoryId == id);
             }
-            var posts = query.OrderByDescending(p => p.CreatedDate).ToList();
+                var posts = query.OrderByDescending(p => p.CreatedDate).ToList();
             return View(posts);
         }
         public IActionResult Details(int id)

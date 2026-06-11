@@ -1,0 +1,59 @@
+﻿@model CMS.Data.Entities.Customer
+@{
+    ViewData["Title"] = "Thêm khách hàng mới";
+    Layout = "_LayoutAdmin";
+}
+
+<div class="container mt-4" style="max-width: 600px;">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">➕ THÊM KHÁCH HÀNG MỚI</h4>
+        </div>
+        <div class="card-body">
+            <form asp-controller="Customer" asp-action="Create" method="post">
+                @Html.AntiForgeryToken()
+
+                <div class="mb-3">
+                    <label asp-for="FullName" class="form-label fw-bold">Họ và tên khách hàng</label>
+                    <input asp-for="FullName" class="form-control" required placeholder="Ví dụ: Nguyễn Văn A" />
+                    <span asp-validation-for="FullName" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Phone" class="form-label fw-bold">Số điện thoại</label>
+                    <input type="text" asp-for="Phone" class="form-control" placeholder="Ví dụ: 0912345678" />
+                    <span asp-validation-for="Phone" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label fw-bold">Địa chỉ Email</label>
+                    <input asp-for="Email" type="email" class="form-control" required placeholder="Ví dụ: nva@gmail.com" />
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label fw-bold">Mật khẩu đăng nhập</label>
+                    <input asp-for="Password" type="password" class="form-control" required placeholder="Nhập mật khẩu cho khách hàng..." />
+                    <span asp-validation-for="Password" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Address" class="form-label fw-bold">Địa chỉ</label>
+                    <textarea asp-for="Address" class="form-control" rows="3" placeholder="Nhập địa chỉ..."></textarea>
+                    <span asp-validation-for="Address" class="text-danger small"></span>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+                    <button type="submit" class="btn btn-primary fw-bold">Lưu thông tin</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
